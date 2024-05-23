@@ -5,6 +5,16 @@ const app = express();
 // Middleware
 const validateNameLength = require("./utils/validateNameLength");
 
+function validateNameLength(req, res, next) {
+  const name = req.params
+  if (name.length >= 3) {
+    //if name is valid we want to move on to next middleware (hello || goodbye)
+    next();
+  } else {
+    // here if name is too short we create Error and send it to error handling
+  }
+}
+
 // Routes
 app.get("/hello/:name", (req, res, next) => {
   const message = `Hello, ${req.params.name}!`;
