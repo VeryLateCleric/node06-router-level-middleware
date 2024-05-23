@@ -1,5 +1,5 @@
 function validateNameLength(req, res, next) {
-    const name = req.params
+    const { name } = req.params
 
     if (name.length >= 3) {
         //if name is valid we want to move on to next middleware (hello || goodbye)
