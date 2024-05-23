@@ -5,23 +5,13 @@ const app = express();
 // Middleware
 const validateNameLength = require("./utils/validateNameLength");
 
-function validateNameLength(req, res, next) {
-  const name = req.params
-  if (name.length >= 3) {
-    //if name is valid we want to move on to next middleware (hello || goodbye)
-    next();
-  } else {
-    // here if name is too short we create Error and send it to error handling
-  }
-}
-
 // Routes
-app.get("/hello/:name", (req, res, next) => {
+app.get("/hello/:name", validateNameLength, (req, res, next) => {
   const message = `Hello, ${req.params.name}!`;
   res.send(message);
 });
 
-app.get("/goodbye/:name", (req, res, next) => {
+app.get("/goodbye/:name", validateNameLength, (req, res, next) => {
   const message = `Goodbye, ${req.params.name}.`;
   res.send(message);
 });
@@ -35,5 +25,7 @@ app.use((err, req, res, next) => {
   err = err || "Internal server error!";
   res.send(err);
 });
+
+app.use(validateNameLength);
 
 module.exports = app;
